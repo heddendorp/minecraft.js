@@ -1,2 +1,2 @@
 # minecraft.js
-Luanching minecraft, with JavaScript :O
+Launching minecraft, with JavaScript :O
