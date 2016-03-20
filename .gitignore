@@ -34,3 +34,10 @@ node_modules
 
 # Webstorm / Idea files
 .idea
+
+# Built apps
+dist
+build
+
+# Private
+src/app-bo
