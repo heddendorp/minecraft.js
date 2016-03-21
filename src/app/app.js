@@ -10,12 +10,15 @@ import './../style/app.scss'
 
 import user from './user/user'
 import packExplorer from './packs/packExplorer'
+import mcAuthService from './services/minecraftAuth'
 
 import template from './app.ng.html'
 import theme from './app.theme'
 
 class AppCtrl {
-  constructor () {
+  constructor (mcAuth) {
+    'ngInject'
+    this._auth = mcAuth
     electron.webFrame.registerURLSchemeAsBypassingCSP('https')
   }
 }
@@ -27,14 +30,14 @@ let app = {
   controller: AppCtrl,
   controllerAs: 'app',
   $routeConfig: [
-    { path: '/user', name: 'User', component: 'user', useAsDefault: true },
-    { path: '/packs/...', name: 'Packs', component: 'packExplorer' }
+    { path: '/packs/...', name: 'Packs', component: 'packExplorer', useAsDefault: true }
   ]
 }
 angular
   .module('app', [
     ngMaterial,
     'ngComponentRouter',
+    mcAuthService,
     user,
     packExplorer
   ])

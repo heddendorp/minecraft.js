@@ -4,7 +4,7 @@
 import angular from 'angular'
 
 import template from './packExplorer.ng.html'
-import mcAuthService from './../services/minecraftAuth'
+import packIndex from './index/packIndex'
 
 class PacksCtrl {
   constructor () {
@@ -16,12 +16,16 @@ let packs = {
   restrict: 'E',
   bindings: {},
   template,
+  $routeConfig: [
+    { path: '/', name: 'Index', component: 'packIndex', useAsDefault: true }
+  ],
   controller: PacksCtrl,
   controllerAs: 'packs'
 }
 
 export default angular
   .module('app.packs', [
+    packIndex
   ])
   .component('packExplorer', packs)
   .name

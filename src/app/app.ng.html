@@ -1,9 +1,8 @@
 <div flex layout="row">
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-whiteframe>
         <md-toolbar>
             <div class="md-toolbar-tools os">
                 <h1>Packs</h1>
-                <md-icon md-svg-icon="icons:package" class="icon"></md-icon>
                 <span flex></span>
             </div>
         </md-toolbar>
@@ -24,3 +23,13 @@
         </md-content>
     </div>
 </div>
+    <md-toolbar style="z-index: 60;">
+        <div class="md-toolbar-tools os" ng-if="app._auth.user">
+            <img src="https://minotar.net/helm/{{app._auth.user.selectedProfile.name}}/45.png">
+            <span class="md-padding">{{app._auth.user.selectedProfile.name}}</span>
+            <span flex></span>
+        </div>
+        <div class="md-toolbar-tools os" ng-if="!app._auth.user">
+            <md-button>Log in to play Minecraft</md-button>
+        </div>
+    </md-toolbar>
