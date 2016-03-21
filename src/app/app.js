@@ -3,9 +3,12 @@
  */
 import angular from 'angular'
 import ngMaterial from 'angular-material'
-import 'angular-new-router'
+import '@angular/router/angular1/angular_1_router'
 import 'angular-material/angular-material.scss'
 import './../style/app.scss'
+
+import user from './user/user'
+import packExplorer from './packs/packExplorer'
 
 import template from './app.ng.html'
 import theme from './app.theme'
@@ -17,12 +20,19 @@ let app = {
   bindings: {},
   template,
   controller: AppCtrl,
-  controllerAs: 'app'
+  controllerAs: 'app',
+  $routeConfig: [
+    { path: '/user', name: 'User', component: 'user' },
+    { path: '/packs/...', name: 'Packs', component: 'packExplorer', useAsDefault: true }
+  ]
 }
 angular
   .module('app', [
     ngMaterial,
-    'ngNewRouter'
+    'ngComponentRouter',
+    user,
+    packExplorer
   ])
   .config(theme)
+  .value('$routerRootComponent', 'app')
   .component('app', app)

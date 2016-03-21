@@ -4,6 +4,7 @@
 // main.js
 var app = require('app')
 var BrowserWindow = require('browser-window')
+var path = require('path')
 
 // require('crash-reporter').start()
 
@@ -16,14 +17,19 @@ app.on('window-all-closed', function () {
 })
 
 app.on('ready', function () {
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    minWidth: 1200,
+    minHeight: 600,
+    title: 'minecraft.js',
+    icon: path.resolve(__dirname, 'icon.png') })
   if (typeof process !== 'undefined' && process.env.NODE_ENV === 'DEV') {
     mainWindow.loadURL('http://localhost:8080')
+    mainWindow.openDevTools()
   } else {
-    mainWindow.loadURL('file://' + __dirname + '/index.html')
+    mainWindow.loadURL('file://' + path.resolve(__dirname, 'index.html'))
   }
-
-  //mainWindow.openDevTools()
 
   mainWindow.on('closed', function () {
     mainWindow = null

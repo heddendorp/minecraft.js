@@ -1,7 +1,7 @@
 <div flex layout="row">
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
         <md-toolbar>
-            <h1 class="md-toolbar-tools">OMG LIVE</h1>
+            <h1 class="md-toolbar-tools os">Packs</h1>
         </md-toolbar>
         <md-content>
         </md-content>
@@ -10,18 +10,13 @@
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>
-                    <span>not SO LIVE</span>
+                    <span class="os">minecraft.js</span>
                 </h2>
-                <span flex>TEST</span>
-                <span flex>TEST</span>
+                <span flex></span>
             </div>
         </md-toolbar>
-    </div>
-    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-xs')">
-        <md-toolbar>
-            <h1 class="md-toolbar-tools"></h1>
-        </md-toolbar>
-        <md-content layout-padding>
+        <md-content flex>
+            <ng-outlet></ng-outlet>
         </md-content>
-    </md-sidenav>
+    </div>
 </div>

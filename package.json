@@ -34,6 +34,7 @@
     "fs-jetpack": "^0.7.2",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.10.0",
+    "json-loader": "^0.5.4",
     "ng-annotate-loader": "^0.1.0",
     "node-sass": "^3.4.2",
     "postcss-loader": "^0.8.2",
@@ -51,8 +52,8 @@
     "angular-aria": "^1.5.2",
     "angular-material": "^1.0.6",
     "angular-messages": "^1.5.2",
-    "angular-new-router": "^0.5.3",
     "angular-sanitize": "^1.5.2",
-    "electron-prebuilt": "^0.37.2"
+    "electron-prebuilt": "^0.37.2",
+    "request": "^2.69.0"
   }
 }

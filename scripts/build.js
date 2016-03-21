@@ -19,10 +19,10 @@ var context = path.resolve(__dirname, '..')
 if (isBuild) {
   console.log('Clearing dist')
   rimraf(path.resolve(context, 'dist'), bundle)
+  rimraf(path.resolve(context, 'build'), function () {})
 } else {
   bundle()
 }
-rimraf(path.resolve(context, 'build'), function () {})
 
 function bundle () {
   var config = makeWebpackConfig()
@@ -64,7 +64,8 @@ function build () {
   console.log('building')
   var opts = {
     arch: 'x64',
-    platform: 'win32',
+    platform: ['win32', 'linux'],
+    asar: true,
     dir: path.resolve(context, 'dist'),
     out: path.resolve(context, 'build')
   }
@@ -83,7 +84,7 @@ function makeWebpackConfig () {
   config.output = {
     path: path.resolve(context, 'dist'),
     publicPath: isBuild ? './' : 'http://localhost:8080/',
-    filename: '[name].bundle.js',
+    filename: isBuild ? '[name].[hash].js' : '[name].bundle.js',
     chunkFilename: '[name].bundle.js'
   }
   config.devtool = 'cheap-module-eval-source-map'
@@ -93,7 +94,8 @@ function makeWebpackConfig () {
       { test: /\.js$/, loader: 'ng-annotate!babel?presets[]=es2015', exclude: /node_modules/ },
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass') },
       { test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/, loader: 'file' },
-      { test: /\.html$/, loader: 'raw' }
+      { test: /\.html$/, loader: 'raw' },
+      { test: /\.json$/, loader: 'json' }
     ]
   }
   config.postcss = [
@@ -105,9 +107,16 @@ function makeWebpackConfig () {
     new ExtractTextPlugin('[name].[hash].css'),
     new CopyWebpackPlugin([
       { from: path.resolve(context, 'package.json') },
-      { from: path.resolve(context, 'src/main.js') }
+      { from: path.resolve(context, 'src/main.js') },
+      { from: path.resolve(context, 'src/img') }
     ])
   )
+  // Keep webpack from searching for node core modules
+  config.node = {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
   // config.devServer = { contentBase: './src/public', stats: 'minimal' }
   console.info(config)
   return config

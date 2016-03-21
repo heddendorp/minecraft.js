@@ -4,6 +4,7 @@
 export default function theme ($mdThemingProvider) {
   'ngInject'
   $mdThemingProvider.theme('default')
-    .primaryPalette('deep-orange')
-    .accentPalette('blue-grey')
+    .primaryPalette('blue')
+    .accentPalette('cyan')
+    .dark()
 }
