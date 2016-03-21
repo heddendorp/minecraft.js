@@ -1,0 +1,31 @@
+<div ng-if="!user._auth.user" flex layout-align="center center" layout="row" layout-padding>
+    <div>
+        <md-card class="warn">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline os">No users found</span>
+                </md-card-title-text>
+            </md-card-title>
+            <form name="login">
+                <md-card-content>
+                    <p>
+                        To play minecraft please add a user to the launcher
+                    </p>
+                    <div layout="row">
+                        <md-input-container>
+                            <label>Email / Username</label>
+                            <input name="username" ng-model="user.username" type="text" required>
+                        </md-input-container>
+                        <md-input-container class="md-accent">
+                            <label class="md-accent">Password</label>
+                            <input name="password" ng-model="user.password" class="md-accent" type="password" required>
+                        </md-input-container>
+                    </div>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-disabled="login.$invalid">Log in now</md-button>
+                </md-card-actions>
+            </form>
+        </md-card>
+    </div>
+</div>
