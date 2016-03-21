@@ -1,5 +1,5 @@
 {
-  "name": "breakoutCMS",
+  "name": "minecraft.js",
   "version": "0.0.0",
   "description": "A js minecraft launcher",
   "main": "main.js",
@@ -54,6 +54,6 @@
     "angular-messages": "^1.5.2",
     "angular-sanitize": "^1.5.2",
     "electron-prebuilt": "^0.37.2",
-    "request": "^2.69.0"
+    "request": "^2.65.0"
   }
 }

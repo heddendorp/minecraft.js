@@ -12,7 +12,12 @@ class UserCtrl {
     this._auth = mcAuth
   }
   login () {
+    console.log('Calling auth')
     this._auth.authenticate(this.username, this.password)
+  }
+  logout () {
+    console.log('Calling auth')
+    this._auth.logout()
   }
 }
 

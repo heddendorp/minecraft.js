@@ -98,6 +98,7 @@ function makeWebpackConfig () {
       { test: /\.json$/, loader: 'json' }
     ]
   }
+  config.target = 'electron'
   config.postcss = [
     autoprefixer({ browsers: ['last 2 version'] })
   ]
@@ -113,6 +114,7 @@ function makeWebpackConfig () {
   )
   // Keep webpack from searching for node core modules
   config.node = {
+    console: true,
     fs: 'empty',
     net: 'empty',
     tls: 'empty'

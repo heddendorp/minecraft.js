@@ -2,19 +2,24 @@
  * Created by l.heddendorp on 20.03.2016.
  */
 import angular from 'angular'
+import request from 'request'
 
 class mcAuth {
-  constructor ($http, $log) {
+  constructor ($log) {
     'ngInject'
-    this._http = $http
     this._log = $log
-    this.user = true
+    this._request = request
+    this.user = false
     this.loginData = {}
   }
   _debug (text) {
     this._log.debug('mcAuth - ' + text)
   }
+  logout () {
+    this.user = null
+  }
   authenticate (username, password) {
+    this._debug('Authentication with: ' + username + ' / ' + password)
     let request = {
       agent: {                              // defaults to Minecraft
         name: 'Minecraft',                  // For Mojang's other game Scrolls, "Scrolls" should be used
@@ -25,14 +30,21 @@ class mcAuth {
                                             // unmigrated accounts
       password: password
     }
-    this._http.post('https://authserver.mojang.com/authenticate', request).then((res) => {
-      this._debug('Auth response received')
-      this._debug(res)
-      this.loginData = {
-        username: username,
-        password: password
+    let vm = this
+    this._request({
+      url: 'https://authserver.mojang.com/authenticate',
+      method: 'POST',
+      json: true,
+      body: request
+    }, (err, res, body) => {
+      if (err) {
+        console.warn(err)
       }
-    }, (error) => { this._log.error(error) })
+      vm.loginData = request
+      vm.user = body
+      console.info(res)
+      console.info(body)
+    })
   }
 }
 

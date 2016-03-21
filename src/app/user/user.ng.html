@@ -1,6 +1,6 @@
-<div ng-if="!user._auth.user" flex layout-align="center center" layout="row" layout-padding>
+<div flex layout-align="center center" layout="row" layout-padding>
     <div>
-        <md-card class="warn">
+        <md-card ng-if="!user._auth.user" class="warn">
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline os">No users found</span>
@@ -23,9 +23,25 @@
                     </div>
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-disabled="login.$invalid">Log in now</md-button>
+                    <md-button ng-disabled="login.$invalid" ng-click="user.login()" type="submit">Log in now</md-button>
                 </md-card-actions>
             </form>
+        </md-card>
+        <md-card ng-if="user._auth.user">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{user._auth.user.selectedProfile.name}}</span>
+                    <span class="md-subhead">Currently logged in</span>
+                </md-card-title-text>
+                <md-card-title-media class="md-padding">
+                    <div class="md-media-sm card-media">
+                        <img src="https://minotar.net/helm/{{user._auth.user.selectedProfile.name}}/200.png">
+                    </div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="user.logout()">Log out</md-button>
+            </md-card-actions>
         </md-card>
     </div>
 </div>

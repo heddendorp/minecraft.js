@@ -9,13 +9,12 @@ var path = require('path')
 // require('crash-reporter').start()
 
 var mainWindow = null
-
+app.commandLine.appendSwitch('disable-web-security')
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     width: 1200,

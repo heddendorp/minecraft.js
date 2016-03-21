@@ -3,6 +3,7 @@
  */
 import angular from 'angular'
 import ngMaterial from 'angular-material'
+import electron from 'electron'
 import '@angular/router/angular1/angular_1_router'
 import 'angular-material/angular-material.scss'
 import './../style/app.scss'
@@ -13,7 +14,11 @@ import packExplorer from './packs/packExplorer'
 import template from './app.ng.html'
 import theme from './app.theme'
 
-class AppCtrl {}
+class AppCtrl {
+  constructor () {
+    electron.webFrame.registerURLSchemeAsBypassingCSP('https')
+  }
+}
 
 let app = {
   restrict: 'E',
@@ -22,8 +27,8 @@ let app = {
   controller: AppCtrl,
   controllerAs: 'app',
   $routeConfig: [
-    { path: '/user', name: 'User', component: 'user' },
-    { path: '/packs/...', name: 'Packs', component: 'packExplorer', useAsDefault: true }
+    { path: '/user', name: 'User', component: 'user', useAsDefault: true },
+    { path: '/packs/...', name: 'Packs', component: 'packExplorer' }
   ]
 }
 angular
