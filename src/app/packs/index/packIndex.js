@@ -8,6 +8,7 @@ import template from './packIndex.ng.html'
 class IndexCtrl {
   constructor () {
     'ngInject'
+    console.log('INDEX INIT')
   }
 }
 
@@ -19,8 +20,6 @@ let index = {
   controllerAs: 'index'
 }
 
-export default angular
-  .module('app.packs', [
-  ])
+angular
+  .module('app.packs')
   .component('packIndex', index)
-  .name

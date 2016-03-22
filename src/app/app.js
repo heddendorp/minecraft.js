@@ -11,15 +11,31 @@ import './../style/app.scss'
 import user from './user/user'
 import packExplorer from './packs/packExplorer'
 import mcAuthService from './services/minecraftAuth'
+import LoginCtrl from './login.controller'
 
 import template from './app.ng.html'
 import theme from './app.theme'
 
 class AppCtrl {
-  constructor (mcAuth) {
+  constructor (mcAuth, $mdDialog) {
     'ngInject'
     this._auth = mcAuth
+    this._dialog = $mdDialog
     electron.webFrame.registerURLSchemeAsBypassingCSP('https')
+  }
+  login (event) {
+    this._dialog.show({
+      controller: LoginCtrl,
+      controllerAs: 'login',
+      bindToController: true,
+      locals: {
+        props: this.page.properties
+      },
+      template: require('./login.ng.html'),
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true
+    })
   }
 }
 
@@ -30,7 +46,7 @@ let app = {
   controller: AppCtrl,
   controllerAs: 'app',
   $routeConfig: [
-    { path: '/packs/...', name: 'Packs', component: 'packExplorer', useAsDefault: true }
+    { path: '/packs/...', name: 'Packs', component: 'packs', useAsDefault: true }
   ]
 }
 angular
