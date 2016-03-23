@@ -4,7 +4,6 @@
 import angular from 'angular'
 
 import './index/packIndex'
-import template from './packExplorer.ng.html'
 import packIndex from './index/packIndex'
 
 class PacksCtrl {
@@ -16,7 +15,7 @@ class PacksCtrl {
 let packs = {
   restrict: 'E',
   bindings: {},
-  template,
+  template: '<ng-outlet></ng-outlet>',
   $routeConfig: [
     { path: '/', name: 'Index', component: 'packIndex', useAsDefault: true }
   ],
