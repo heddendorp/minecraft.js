@@ -1,4 +1,4 @@
-<md-dialog>
+<md-dialog flex="50">
     <md-toolbar class="md-accent">
         <div class="md-toolbar-tools">
             <h2>Log in</h2>
@@ -10,19 +10,22 @@
     </md-toolbar>
     <form name="data">
         <md-dialog-content>
-            <div layout="row">
-                <md-input-container>
-                    <label>Email / Username</label>
-                    <input name="username" ng-model="login.username" type="text" required>
-                </md-input-container>
-                <md-input-container class="md-accent">
-                    <label class="md-accent">Password</label>
-                    <input name="password" ng-model="login.password" class="md-accent" type="password" required>
-                </md-input-container>
-            </div>
+            <md-content layout-padding>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label>Email / Username</label>
+                        <input name="username" ng-model="login.username" type="text" required>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label class="md-accent">Password</label>
+                        <input name="password" ng-model="login.password" class="md-accent" type="password" required>
+                    </md-input-container>
+                </div>
+                <p>Your login data will be saved while the launcher is open, to refresh your login session when needed.</p>
+            </md-content>
         </md-dialog-content>
         <md-dialog-actions layout="row" layout-align="end center">
-            <md-button ng-disabled="data.$invalid" ng-click="login.login()" type="submit">Log in now</md-button>
+            <md-button ng-disabled="data.$invalid" ng-click="login.login()" type="submit" class="md-raised">Log in now</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

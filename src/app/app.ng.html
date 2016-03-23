@@ -30,6 +30,6 @@
             <span flex></span>
         </div>
         <div class="md-toolbar-tools os" ng-if="!app._auth.user">
-            <md-button>Log in to play Minecraft</md-button>
+            <md-button ng-click="app.login($event)">Log in to play Minecraft</md-button>
         </div>
     </md-toolbar>

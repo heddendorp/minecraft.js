@@ -7,6 +7,6 @@ export default function theme ($mdThemingProvider, $mdIconProvider) {
     .iconSet('icons', 'minecraft.js.svg')
   $mdThemingProvider.theme('default')
     .primaryPalette('blue')
-    .accentPalette('cyan')
+    .accentPalette('deep-purple')
     .dark()
 }

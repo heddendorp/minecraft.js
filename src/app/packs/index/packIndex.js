@@ -20,6 +20,7 @@ let index = {
   controllerAs: 'index'
 }
 
-angular
-  .module('app.packs')
+export default angular
+  .module('app.packs.index', [])
   .component('packIndex', index)
+  .name

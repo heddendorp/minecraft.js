@@ -27,10 +27,6 @@ class AppCtrl {
     this._dialog.show({
       controller: LoginCtrl,
       controllerAs: 'login',
-      bindToController: true,
-      locals: {
-        props: this.page.properties
-      },
       template: require('./login.ng.html'),
       parent: angular.element(document.body),
       targetEvent: event,

@@ -5,6 +5,7 @@ import angular from 'angular'
 
 import './index/packIndex'
 import template from './packExplorer.ng.html'
+import packIndex from './index/packIndex'
 
 class PacksCtrl {
   constructor () {
@@ -25,6 +26,7 @@ let packs = {
 
 export default angular
   .module('app.packs', [
+    packIndex
   ])
   .component('packs', packs)
   .name
