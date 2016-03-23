@@ -2,8 +2,9 @@
  * Created by l.heddendorp on 22.03.2016.
  */
 export default class SettingsCtrl {
-  constructor ($mdDialog, mcAuth) {
+  constructor ($mdDialog, $mdToast, mcAuth) {
     'ngInject'
+    this._toast = $mdToast.showSimple
     this._auth = mcAuth
     this._dialog = $mdDialog
   }

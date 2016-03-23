@@ -1,0 +1,21 @@
+<md-dialog flex="85">
+    <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+            <h2>Settings</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="settings.cancel()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="data">
+        <md-dialog-content>
+            <md-content layout-padding>
+                <p>Your login data will be saved while the launcher is open, to refresh your login session when needed.</p>
+            </md-content>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button ng-disabled="data.$invalid" type="submit" class="md-raised">Save Settings</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

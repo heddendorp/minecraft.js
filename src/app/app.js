@@ -11,17 +11,22 @@ import './../style/app.scss'
 import user from './user/user'
 import packExplorer from './packs/packExplorer'
 import mcAuthService from './services/minecraftAuth'
+import settingsDialog from './settings/settings'
 import LoginCtrl from './login.controller'
 
 import template from './app.ng.html'
 import theme from './app.theme'
 
 class AppCtrl {
-  constructor (mcAuth, $mdDialog) {
+  constructor (mcAuth, $mdDialog, settings) {
     'ngInject'
+    this._settings = settings
     this._auth = mcAuth
     this._dialog = $mdDialog
     electron.webFrame.registerURLSchemeAsBypassingCSP('https')
+  }
+  settings (event) {
+    this._settings.show(event)
   }
   login (event) {
     this._dialog.show({
@@ -50,6 +55,7 @@ angular
     ngMaterial,
     'ngComponentRouter',
     mcAuthService,
+    settingsDialog,
     user,
     packExplorer
   ])
