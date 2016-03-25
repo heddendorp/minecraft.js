@@ -10,6 +10,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var packager = require('electron-packager')
 var path = require('path')
 var jetpack = require('fs-jetpack')
+var Zip = require('adm-zip')
 var autoprefixer = require('autoprefixer')
 var package = require('./../package.json');
 
@@ -63,7 +64,7 @@ function bundle () {
 }
 
 function build () {
-  console.log('building')
+  console.log('Building app')
   var opts = {
     arch: 'x64',
     platform: ['win32', 'linux'],
@@ -76,12 +77,26 @@ function build () {
     if (err) {
       console.error(err)
     }
+    console.log('\nPaths:')
     console.log(appPath)
-    appPath.forEach(function (path) {
-      var pathArgs = path.split('\\')
-      var folderArgs = pathArgs.split('-')
-      jetpack.rename(path, 'minecraftJS-'+package.version+'-'+folderArgs[1]+'-'+folderArgs[2])
+    appPath.forEach(function (filePath) {
+      console.log('')
+      console.log('Zip up:      '+filePath)
+      var pathArgs = filePath.split('\\')
+      var folderArgs = pathArgs[pathArgs.length - 1].split('-')
+      var name = 'minecraftJS_'+package.version+'_'+folderArgs[1]+'-'+folderArgs[2]+'.zip'
+      console.log('Filename:    '+name)
+      var zipPath = path.resolve(context, 'build', name)
+      console.log('Output path: '+path)
+      var zip = new Zip()
+      console.log('Adding Local folder to zip')
+      zip.addLocalFolder(filePath)
+      console.log('Writing zip')
+      zip.writeZip(zipPath)
+      console.log('Deleting original dir')
+      jetpack.remove(filePath)
     })
+    console.log('Build completed')
   })
 }
 

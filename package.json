@@ -48,6 +48,7 @@
     "webpack-target-electron-renderer": "^0.4.0"
   },
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "angular": "^1.5.2",
     "angular-animate": "^1.5.2",
     "angular-aria": "^1.5.2",
