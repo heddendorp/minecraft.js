@@ -33,6 +33,8 @@ export default class PackController {
         this._notify('Fetch successful')
         this._packs.add(body)
         console.info(body)
+        this.url = ''
+        this.cancel()
       }
       this.progress = false
     })

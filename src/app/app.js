@@ -14,6 +14,7 @@ import user from './user/user'
 import packExplorer from './packs/packExplorer'
 import mcAuthService from './services/minecraftAuth'
 import packService from './services/packService'
+import dbService from './services/db.service'
 import settingsDialog from './settings/settings'
 import LoginCtrl from './login.controller'
 import PackCtrl from './addPack.controller'
@@ -26,7 +27,8 @@ class AppCtrl {
     this._settings = settings
     this._auth = mcAuth
     this._dialog = $mdDialog
-    this.packs = packs
+    this._packs = packs
+    packs.list().then((packs) => { this.packs = packs })
   }
   settings (event) {
     this._settings.show(event)
@@ -39,7 +41,7 @@ class AppCtrl {
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true
-    })
+    }).then(() => { this._packs.list().then((packs) => { this.packs = packs }) })
   }
   logout () {
     this._auth.logout()
@@ -71,6 +73,7 @@ angular
     ngMaterial,
     lokiJS.name,
     'ngComponentRouter',
+    dbService,
     mcAuthService,
     packService,
     settingsDialog,
