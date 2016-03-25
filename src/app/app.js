@@ -3,6 +3,7 @@
  */
 import angular from 'angular'
 import ngMaterial from 'angular-material'
+import pouchDB from 'angular-pouchdb'
 import '@angular/router/angular1/angular_1_router'
 import 'angular-material/angular-material.scss'
 import './../style/app.scss'
@@ -65,6 +66,7 @@ let app = {
 angular
   .module('app', [
     ngMaterial,
+    pouchDB,
     'ngComponentRouter',
     mcAuthService,
     settingsDialog,
