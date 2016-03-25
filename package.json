@@ -1,6 +1,6 @@
 {
   "name": "minecraft.js",
-  "version": "0.0.1-0",
+  "version": "0.0.1-1",
   "description": "A js minecraft launcher",
   "main": "main.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Isigiel/minecraft.js#readme",
   "devDependencies": {
-    "autoprefixer": "latest",
+    "autoprefixer": "^6.3.4",
     "babel-core": "^6.7.2",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.6.0",
