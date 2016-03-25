@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build:dev": "npm version prerelease -m \"Prerelease %s\"",
+    "build:patch:dev": "npm version prepatch -m \"Prerelease %s\"",
     "version": "node scripts/build.js",
     "start": "node scripts/build.js",
     "start:app": "cross-env NODE_ENV=DEV electron dist/",
