@@ -8,9 +8,9 @@
         </md-toolbar>
         <md-content>
             <md-list>
-                <md-list-item>
+                <md-list-item ng-click="app.addPack($event)">
                     <md-icon md-svg-icon="icons:package-new"></md-icon>
-                    Add a pack
+                    <span flex>Add a pack</span>
                 </md-list-item>
             </md-list>
         </md-content>
@@ -18,8 +18,7 @@
     <div flex layout="column">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <md-icon md-svg-icon="icons:crafting"></md-icon>
-                <h2 class="os">&nbsp;minecraft.js</h2>
+                <h2 class="os">minecraft.js</h2>
                 <span flex></span>
                 <md-button ng-click="app.settings($event)" class="md-icon-button"><md-icon md-svg-icon="icons:settings"></md-icon></md-button>
             </div>
@@ -29,13 +28,13 @@
         </md-content>
     </div>
 </div>
-    <md-toolbar style="z-index: 60;">
-        <div class="md-toolbar-tools os" ng-if="app._auth.user">
-            <img src="https://minotar.net/helm/{{app._auth.user.selectedProfile.name}}/45.png">
-            <span class="md-padding">{{app._auth.user.selectedProfile.name}}</span>
-            <span flex></span>
-        </div>
-        <div class="md-toolbar-tools os" ng-if="!app._auth.user">
-            <md-button ng-click="app.login($event)">Log in to play Minecraft</md-button>
-        </div>
-    </md-toolbar>
+<md-toolbar style="z-index: 60;">
+    <div class="md-toolbar-tools os" ng-if="app._auth.user">
+        <img src="https://minotar.net/helm/{{app._auth.user.selectedProfile.name}}/45.png">
+        <span class="md-padding">{{app._auth.user.selectedProfile.name}}</span>
+        <span flex></span>
+    </div>
+    <div class="md-toolbar-tools os" ng-if="!app._auth.user">
+        <md-button ng-click="app.login($event)">Log in to play Minecraft</md-button>
+    </div>
+</md-toolbar>

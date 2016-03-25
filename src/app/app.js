@@ -12,6 +12,7 @@ import packExplorer from './packs/packExplorer'
 import mcAuthService from './services/minecraftAuth'
 import settingsDialog from './settings/settings'
 import LoginCtrl from './login.controller'
+import PackCtrl from './addPack.controller'
 
 import template from './app.ng.html'
 import theme from './app.theme'
@@ -25,6 +26,16 @@ class AppCtrl {
   }
   settings (event) {
     this._settings.show(event)
+  }
+  addPack (event) {
+    this._dialog.show({
+      controller: PackCtrl,
+      controllerAs: 'pack',
+      template: require('./addPack.ng.html'),
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true
+    })
   }
   logout () {
     this._auth.logout()
