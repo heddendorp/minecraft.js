@@ -78,8 +78,8 @@ function build () {
     }
     console.log(appPath)
     appPath.forEach(function (path) {
-      let pathArgs = path.split('\\')
-      let folderArgs = pathArgs.split('-')
+      var pathArgs = path.split('\\')
+      var folderArgs = pathArgs.split('-')
       jetpack.rename(path, 'minecraftJS-'+package.version+'-'+folderArgs[1]+'-'+folderArgs[2])
     })
   })
