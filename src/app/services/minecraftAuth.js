@@ -5,12 +5,28 @@ import angular from 'angular'
 import request from 'request'
 
 class mcAuth {
-  constructor ($log, $mdToast, $q) {
+  constructor ($log, $mdToast, $q, db) {
     'ngInject'
     this._q = $q
     this._log = $log
     this._toast = $mdToast
     this._request = request
+    db.get().then((db) => {
+      this._db = db
+      if (this._db.getCollection('auth')) {
+        this._collection = this._db.getCollection('auth')
+      } else {
+        this._collection = this._db.addCollection('auth')
+        this._collection.insert({
+          username: false,
+          password: false
+        })
+      }
+      let data = this._collection.get(1)
+      if (data.username) {
+        this.authenticate(data.username, data.password)
+      }
+    })
     this.user = false
     this.loginData = {}
   }
@@ -18,7 +34,12 @@ class mcAuth {
     this._toast.showSimple(text)
   }
   _debug (text) {
-    this._log.debug('mcAuth - ' + text)
+    if (typeof text === 'string') {
+      this._log.debug('mcAuth - ' + text)
+    } else {
+      this._log.debug('mcAuth - dump')
+      this._log.debug(text)
+    }
   }
   logout () {
     this.user = null
@@ -46,10 +67,15 @@ class mcAuth {
         deferred.reject(err)
       } else if (res.statusCode !== 200) {
         this._notify('Credentials invalid')
+        this._debug(res)
+        this._debug(body)
         deferred.reject(res.statusMessage)
       } else {
         this._notify('Login successful')
-        vm.loginData = request
+        let data = vm._collection.get(1)
+        data.username = username
+        data.password = password
+        vm._collection.update(data)
         vm.user = body
         deferred.resolve(true)
       }
