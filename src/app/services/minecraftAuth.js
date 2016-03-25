@@ -5,12 +5,17 @@ import angular from 'angular'
 import request from 'request'
 
 class mcAuth {
-  constructor ($log) {
+  constructor ($log, $mdToast, $q) {
     'ngInject'
+    this._q = $q
     this._log = $log
+    this._toast = $mdToast
     this._request = request
     this.user = false
     this.loginData = {}
+  }
+  _notify (text) {
+    this._toast.showSimple(text)
   }
   _debug (text) {
     this._log.debug('mcAuth - ' + text)
@@ -19,15 +24,13 @@ class mcAuth {
     this.user = null
   }
   authenticate (username, password) {
-    this._debug('Authentication with: ' + username + ' / ' + password)
+    let deferred = this._q.defer()
     let request = {
-      agent: {                              // defaults to Minecraft
-        name: 'Minecraft',                  // For Mojang's other game Scrolls, "Scrolls" should be used
-        version: 1                          // This number might be increased
-                                            // by the vanilla client in the future
+      agent: {
+        name: 'Minecraft',
+        version: 1
       },
-      username: username,                   // Can be an email address or player name for
-                                            // unmigrated accounts
+      username: username,
       password: password
     }
     let vm = this
@@ -39,12 +42,19 @@ class mcAuth {
     }, (err, res, body) => {
       if (err) {
         console.warn(err)
+        this._notify('An error occurred')
+        deferred.reject(err)
+      } else if (res.statusCode !== 200) {
+        this._notify('Credentials invalid')
+        deferred.reject(res.statusMessage)
+      } else {
+        this._notify('Login successful')
+        vm.loginData = request
+        vm.user = body
+        deferred.resolve(true)
       }
-      vm.loginData = request
-      vm.user = body
-      console.info(res)
-      console.info(body)
     })
+    return deferred.promise
   }
 }
 

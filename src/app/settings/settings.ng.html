@@ -12,10 +12,9 @@
         <md-dialog-content>
             <md-content layout-padding>
                 <p>Here you can change basic settings of the launcher</p>
-                <ul>
-                    <li>Login data persistence</li>
-                    <li>Progress verbosity</li>
-                </ul>
+                <md-switch ng-model="data.cb1" aria-label="Switch 1">
+                    persist Login data
+                </md-switch>
                 <p>Your login data will be saved while the launcher is open, to refresh your login session when needed.</p>
             </md-content>
         </md-dialog-content>

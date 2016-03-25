@@ -3,7 +3,6 @@
  */
 import angular from 'angular'
 import ngMaterial from 'angular-material'
-import electron from 'electron'
 import '@angular/router/angular1/angular_1_router'
 import 'angular-material/angular-material.scss'
 import './../style/app.scss'
@@ -23,10 +22,12 @@ class AppCtrl {
     this._settings = settings
     this._auth = mcAuth
     this._dialog = $mdDialog
-    electron.webFrame.registerURLSchemeAsBypassingCSP('https')
   }
   settings (event) {
     this._settings.show(event)
+  }
+  logout () {
+    this._auth.logout()
   }
   login (event) {
     this._dialog.show({

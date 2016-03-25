@@ -1,13 +1,15 @@
 <md-dialog flex="50">
     <md-toolbar class="md-accent">
         <div class="md-toolbar-tools">
-            <h2>Log in</h2>
+            <md-icon md-svg-icon="icons:steve"></md-icon>
+            <h2>&nbsp;Log in</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="login.cancel()">
                 <md-icon>close</md-icon>
             </md-button>
         </div>
     </md-toolbar>
+    <md-progress-linear md-mode="indeterminate" ng-if="login.progress" class="md-accent"></md-progress-linear>
     <form name="data">
         <md-dialog-content>
             <md-content layout-padding>

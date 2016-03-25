@@ -52,8 +52,10 @@
     "angular-aria": "^1.5.2",
     "angular-material": "^1.0.6",
     "angular-messages": "^1.5.2",
+    "angular-pouchdb": "^4.1.0",
     "angular-sanitize": "^1.5.2",
     "electron-prebuilt": "^0.37.2",
+    "pouchdb": "^5.3.1",
     "request": "^2.65.0"
   }
 }

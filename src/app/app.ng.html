@@ -7,16 +7,21 @@
             </div>
         </md-toolbar>
         <md-content>
+            <md-list>
+                <md-list-item>
+                    <md-icon md-svg-icon="icons:package-new"></md-icon>
+                    Add a pack
+                </md-list-item>
+            </md-list>
         </md-content>
     </md-sidenav>
     <div flex layout="column">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>
-                    <span class="os">minecraft.js</span>
-                </h2>
+                <md-icon md-svg-icon="icons:crafting"></md-icon>
+                <h2 class="os">&nbsp;minecraft.js</h2>
                 <span flex></span>
-                <md-button ng-click="app.settings($event)">settings</md-button>
+                <md-button ng-click="app.settings($event)" class="md-icon-button"><md-icon md-svg-icon="icons:settings"></md-icon></md-button>
             </div>
         </md-toolbar>
         <md-content flex>
