@@ -11,6 +11,7 @@ var packager = require('electron-packager')
 var path = require('path')
 var jetpack = require('fs-jetpack')
 var Zip = require('adm-zip')
+var archiver = require('archiver')
 var autoprefixer = require('autoprefixer')
 var package = require('./../package.json');
 
@@ -69,7 +70,7 @@ function build () {
     arch: 'x64',
     platform: ['win32', 'linux'],
     asar: true,
-    name: 'minecraftJs',
+    name: 'minecraftJS',
     dir: path.resolve(context, 'dist'),
     out: path.resolve(context, 'build')
   }
@@ -81,22 +82,29 @@ function build () {
     console.log(appPath)
     appPath.forEach(function (filePath) {
       console.log('')
-      console.log('Zip up:      '+filePath)
+      console.log('Zip up:       '+filePath)
       var pathArgs = filePath.split('\\')
-      var folderArgs = pathArgs[pathArgs.length - 1].split('-')
+      var folderName = pathArgs[pathArgs.length - 1]
+      var folderArgs = folderName.split('-')
       var name = 'minecraftJS_'+package.version+'_'+folderArgs[1]+'-'+folderArgs[2]+'.zip'
-      console.log('Filename:    '+name)
+      console.log('Filename:     '+name)
+      console.log('Local Folder: '+folderName)
       var zipPath = path.resolve(context, 'build', name)
-      console.log('Output path: '+path)
-      var zip = new Zip()
-      console.log('Adding Local folder to zip')
-      zip.addLocalFolder(filePath)
-      console.log('Writing zip')
-      zip.writeZip(zipPath)
-      console.log('Deleting original dir')
-      jetpack.remove(filePath)
+      var file = jetpack.createWriteStream(zipPath)
+      console.log('Output path:  '+zipPath)
+      var archive = archiver.create('zip', {});
+      archive.pipe(file)
+      archive.directory(filePath, '/')
+      console.log('Writing zip file')
+      archive.finalize()
+      file.on('close', function () {
+        console.log('')
+        console.log('Zip file written');
+        console.log(archive.pointer() + ' total bytes');
+        console.log('Deleting original dir')
+        jetpack.remove(filePath)
+      });
     })
-    console.log('Build completed')
   })
 }
 
