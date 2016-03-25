@@ -3,11 +3,12 @@
  */
 import request from 'request'
 export default class PackController {
-  constructor ($mdDialog, $mdToast) {
+  constructor ($mdDialog, $mdToast, packs) {
     'ngInject'
     this._request = request
     this._toast = $mdToast
     this._dialog = $mdDialog
+    this._packs = packs
     this.progress = false
   }
   _notify (text) {
@@ -30,6 +31,7 @@ export default class PackController {
         this._notify(body.error)
       } else {
         this._notify('Fetch successful')
+        this._packs.add(body)
         console.info(body)
       }
       this.progress = false

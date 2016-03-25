@@ -16,7 +16,6 @@ var autoprefixer = require('autoprefixer')
 var package = require('./../package.json');
 
 var ENV = process.env.npm_lifecycle_event
-var isTest = ENV === 'test' || ENV === 'test-watch'
 var isBuild = ENV !== 'start'
 
 var context = path.resolve(__dirname, '..')
@@ -78,29 +77,30 @@ function build () {
     if (err) {
       console.error(err)
     }
-    console.log('\nPaths:')
+    console.log('')
+    console.log('Paths:')
     console.log(appPath)
     appPath.forEach(function (filePath) {
-      console.log('')
-      console.log('Zip up:       '+filePath)
       var pathArgs = filePath.split('\\')
       var folderName = pathArgs[pathArgs.length - 1]
       var folderArgs = folderName.split('-')
       var name = 'minecraftJS_'+package.version+'_'+folderArgs[1]+'-'+folderArgs[2]+'.zip'
-      console.log('Filename:     '+name)
-      console.log('Local Folder: '+folderName)
       var zipPath = path.resolve(context, 'build', name)
       var file = jetpack.createWriteStream(zipPath)
-      console.log('Output path:  '+zipPath)
       var archive = archiver.create('zip', {});
       archive.pipe(file)
       archive.directory(filePath, '/')
+      console.log('')
+      console.log('Zip up:       '+filePath)
+      console.log('Filename:     '+name)
+      console.log('Local Folder: '+folderName)
+      console.log('Output path:  '+zipPath)
       console.log('Writing zip file')
       archive.finalize()
       file.on('close', function () {
         console.log('')
         console.log('Zip file written');
-        console.log(archive.pointer() + ' total bytes');
+        console.log('Total bytes written: '+archive.pointer());
         console.log('Deleting original dir')
         jetpack.remove(filePath)
       });
@@ -126,7 +126,8 @@ function makeWebpackConfig () {
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass') },
       { test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/, loader: 'file' },
       { test: /\.html$/, loader: 'raw' },
-      { test: /\.json$/, loader: 'json' }
+      { test: /\.json$/, loader: 'json' },
+      { test: require.resolve("lokijs"), loader: "expose?loki" }
     ]
   }
   config.target = 'electron'

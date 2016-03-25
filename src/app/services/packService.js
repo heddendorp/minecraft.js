@@ -2,11 +2,20 @@
  * Created by l.heddendorp on 25.03.2016.
  */
 import angular from 'angular'
-import request from 'request'
 
-class mcAuth {
-  constructor ($log, $mdToast, $q) {
+class packs {
+  constructor ($log, $mdToast, $q, Loki) {
     'ngInject'
+    this._db = new Loki('minecraftjs', {
+      autosave: true,
+      autoload: true,
+      persistenceAdapter: 'localStorage'
+    })
+    if (this._db.getCollection('packs')) {
+      this._packs = this._db.getCollection('packs')
+    } else {
+      this._packs = this._db.addCollection('packs')
+    }
     this._q = $q
     this._log = $log
     this._toast = $mdToast
@@ -19,4 +28,4 @@ class mcAuth {
   }
 }
 
-export default angular.module('app.mcAuthService', []).service('mcAuth', mcAuth).name
+export default angular.module('app.packService', []).service('packs', packs).name

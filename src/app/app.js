@@ -3,7 +3,9 @@
  */
 import angular from 'angular'
 import ngMaterial from 'angular-material'
-import pouchDB from 'angular-pouchdb'
+import 'lokijs'
+import 'lokijs/src/loki-indexed-adapter'
+import lokiJS from 'lokijs/src/loki-angular'
 import '@angular/router/angular1/angular_1_router'
 import 'angular-material/angular-material.scss'
 import './../style/app.scss'
@@ -11,19 +13,20 @@ import './../style/app.scss'
 import user from './user/user'
 import packExplorer from './packs/packExplorer'
 import mcAuthService from './services/minecraftAuth'
+import packService from './services/packService'
 import settingsDialog from './settings/settings'
 import LoginCtrl from './login.controller'
 import PackCtrl from './addPack.controller'
-
 import template from './app.ng.html'
 import theme from './app.theme'
 
 class AppCtrl {
-  constructor (mcAuth, $mdDialog, settings) {
+  constructor (mcAuth, $mdDialog, settings, packs) {
     'ngInject'
     this._settings = settings
     this._auth = mcAuth
     this._dialog = $mdDialog
+    this.packs = packs
   }
   settings (event) {
     this._settings.show(event)
@@ -66,9 +69,10 @@ let app = {
 angular
   .module('app', [
     ngMaterial,
-    pouchDB,
+    lokiJS.name,
     'ngComponentRouter',
     mcAuthService,
+    packService,
     settingsDialog,
     user,
     packExplorer

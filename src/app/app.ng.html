@@ -12,6 +12,9 @@
                     <md-icon md-svg-icon="icons:package-new"></md-icon>
                     <span flex>Add a pack</span>
                 </md-list-item>
+                <md-list-item ng-repeat="pack in app.packs">
+                    <pre>{{pack | json}}</pre>
+                </md-list-item>
             </md-list>
         </md-content>
     </md-sidenav>
