@@ -9,7 +9,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var packager = require('electron-packager')
 var path = require('path')
+var jetpack = require('fs-jetpack')
 var autoprefixer = require('autoprefixer')
+var package = require('./../package.json');
 
 var ENV = process.env.npm_lifecycle_event
 var isTest = ENV === 'test' || ENV === 'test-watch'
@@ -19,7 +21,7 @@ var context = path.resolve(__dirname, '..')
 if (isBuild) {
   console.log('Clearing dist')
   rimraf(path.resolve(context, 'dist'), bundle)
-  rimraf(path.resolve(context, 'build'), function () {})
+  // rimraf(path.resolve(context, 'build'), function () {})
 } else {
   bundle()
 }
@@ -66,6 +68,7 @@ function build () {
     arch: 'x64',
     platform: ['win32', 'linux'],
     asar: true,
+    name: 'minecraftJs',
     dir: path.resolve(context, 'dist'),
     out: path.resolve(context, 'build')
   }
@@ -74,6 +77,11 @@ function build () {
       console.error(err)
     }
     console.log(appPath)
+    appPath.forEach(function (path) {
+      let pathArgs = path.split('\\')
+      let folderArgs = pathArgs.split('-')
+      jetpack.rename(path, 'minecraftJS-'+package.version+'-'+folderArgs[1]+'-'+folderArgs[2])
+    })
   })
 }
 
