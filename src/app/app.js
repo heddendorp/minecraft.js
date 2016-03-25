@@ -22,8 +22,9 @@ import template from './app.ng.html'
 import theme from './app.theme'
 
 class AppCtrl {
-  constructor (mcAuth, $mdDialog, settings, packs) {
+  constructor (mcAuth, $mdDialog, settings, packs, $rootRouter) {
     'ngInject'
+    this._router = $rootRouter
     this._settings = settings
     this._auth = mcAuth
     this._dialog = $mdDialog
@@ -32,6 +33,9 @@ class AppCtrl {
   }
   settings (event) {
     this._settings.show(event)
+  }
+  showPack (id) {
+    this._router.navigate(['Packs', 'Show', { id: id }])
   }
   addPack (event) {
     this._dialog.show({

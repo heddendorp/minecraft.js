@@ -5,6 +5,7 @@ import angular from 'angular'
 
 import './index/packIndex'
 import packIndex from './index/packIndex'
+import packDisplay from './display/packDisplay'
 
 class PacksCtrl {
   constructor () {
@@ -17,7 +18,8 @@ let packs = {
   bindings: {},
   template: '<ng-outlet></ng-outlet>',
   $routeConfig: [
-    { path: '/', name: 'Index', component: 'packIndex', useAsDefault: true }
+    { path: '/', name: 'Index', component: 'packIndex', useAsDefault: true },
+    { path: '/:id', name: 'Show', component: 'packDisplay' }
   ],
   controller: PacksCtrl,
   controllerAs: 'packs'
@@ -25,7 +27,8 @@ let packs = {
 
 export default angular
   .module('app.packs', [
-    packIndex
+    packIndex,
+    packDisplay
   ])
   .component('packs', packs)
   .name

@@ -32,6 +32,16 @@ class packs {
     this._collection.insert(pack)
     this.all = this._collection.data
   }
+  get (id) {
+    let deferred = this._q.defer()
+    this._promise.then(() => {
+      deferred.resolve(this._collection.get(id))
+    })
+    return deferred.promise
+  }
+  save (pack) {
+    this._collection.update(pack)
+  }
   _notify (text) {
     this._toast.showSimple(text)
   }
