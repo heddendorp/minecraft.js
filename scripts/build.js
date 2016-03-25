@@ -15,7 +15,7 @@ var package = require('./../package.json');
 
 var ENV = process.env.npm_lifecycle_event
 var isTest = ENV === 'test' || ENV === 'test-watch'
-var isBuild = ENV === 'build'
+var isBuild = ENV !== 'start'
 
 var context = path.resolve(__dirname, '..')
 if (isBuild) {
