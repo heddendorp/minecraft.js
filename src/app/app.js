@@ -37,6 +37,10 @@ class AppCtrl {
   showPack (id) {
     this._router.navigate(['Packs', 'Show', { id: id }])
   }
+  deletePack (pack) {
+    this._packs.delete(pack)
+    this._packs.list().then((packs) => { this.packs = packs })
+  }
   addPack (event) {
     this._dialog.show({
       controller: PackCtrl,

@@ -39,6 +39,10 @@ class packs {
     })
     return deferred.promise
   }
+  delete (pack) {
+    this._collection.remove(pack)
+    this.all = this._collection.data
+  }
   save (pack) {
     this._collection.update(pack)
   }
