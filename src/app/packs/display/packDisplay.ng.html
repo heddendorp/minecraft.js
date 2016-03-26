@@ -1,3 +1,19 @@
 <div layout-padding>
-   <h1>{{show.pack.displayName}}</h1>
+    <div layout="column">
+        <h1>{{show.pack.displayName}}</h1>
+        <div layout="row" layout-padding>
+            <span>
+            <md-icon md-svg-icon="icons:stars"></md-icon>
+             {{show.pack.ratings}}
+         </span>
+         <span>
+            <md-icon md-svg-icon="icons:downloads"></md-icon>
+             {{show.pack.downloads}}
+         </span>
+            <span>
+                <md-icon md-svg-icon="icons:runs"></md-icon>
+                {{show.pack.runs}}
+            </span>
+        </div>
+    </div>
 </div>
