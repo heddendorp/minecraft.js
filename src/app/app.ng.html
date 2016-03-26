@@ -12,9 +12,13 @@
                     <md-icon md-svg-icon="icons:package-new"></md-icon>
                     <span flex>Add a pack</span>
                 </md-list-item>
-                <md-list-item ng-repeat="pack in app.packs" ng-click="app.showPack(pack.$loki)">
+                <md-list-item ng-repeat="pack in app.packs" ng-click="app.showPack(pack.$loki)" class="noright">
                     <img ng-src="{{pack.icon.url}}" class="md-avatar">
                     <span>{{pack.displayName}}</span>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-secondary">
+                        <md-icon md-svg-icon="icons:delete"></md-icon>
+                    </md-button>
                 </md-list-item>
             </md-list>
         </md-content>

@@ -1,19 +1,36 @@
-<div layout-padding>
-    <div layout="column">
-        <h1>{{show.pack.displayName}}</h1>
-        <div layout="row" layout-padding>
-            <span>
-            <md-icon md-svg-icon="icons:stars"></md-icon>
-             {{show.pack.ratings}}
-         </span>
-         <span>
-            <md-icon md-svg-icon="icons:downloads"></md-icon>
-             {{show.pack.downloads}}
-         </span>
-            <span>
-                <md-icon md-svg-icon="icons:runs"></md-icon>
-                {{show.pack.runs}}
-            </span>
-        </div>
+<div layout="row" layout-padding>
+    <div flex="40">
+        <md-card>
+            <img ng-src="{{show.pack.logo.url}}" class="md-card-image" alt="Pack logo">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{show.pack.displayName}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <div layout="row" layout-padding>
+                    <div>
+                        <md-icon md-svg-icon="icons:stars"></md-icon>
+                        {{show.pack.ratings | number}}
+                    </div>
+                    <div>
+                        <md-icon md-svg-icon="icons:downloads"></md-icon>
+                        {{show.pack.downloads | number}}
+                    </div>
+                    <div>
+                        <md-icon md-svg-icon="icons:runs"></md-icon>
+                        {{show.pack.runs | number}}
+                    </div>
+                </div>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button>Install</md-button>
+            </md-card-actions>
+            <md-card-content>
+                <p>
+                    {{show.pack.description}}
+                </p>
+            </md-card-content>
+        </md-card>
     </div>
 </div>
