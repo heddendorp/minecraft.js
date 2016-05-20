@@ -16,19 +16,21 @@ import mcAuthService from './services/minecraftAuth'
 import packService from './services/packService'
 import dbService from './services/db.service'
 import settingsDialog from './settings/settings'
+import solderLoader from './services/solderLoader.service'
 import LoginCtrl from './login.controller'
 import PackCtrl from './addPack.controller'
 import template from './app.ng.html'
 import theme from './app.theme'
 
 class AppCtrl {
-  constructor (mcAuth, $mdDialog, settings, packs, $rootRouter) {
+  constructor (mcAuth, $mdDialog, settings, packs, $rootRouter, sLoader) {
     'ngInject'
     this._router = $rootRouter
     this._settings = settings
     this._auth = mcAuth
     this._dialog = $mdDialog
     this._packs = packs
+    this._loader = sLoader
     packs.list().then((packs) => { this.packs = packs })
   }
   settings (event) {
@@ -77,17 +79,18 @@ let app = {
   ]
 }
 angular
-  .module('app', [
-    ngMaterial,
-    lokiJS.name,
-    'ngComponentRouter',
-    dbService,
-    mcAuthService,
-    packService,
-    settingsDialog,
-    user,
-    packExplorer
-  ])
-  .config(theme)
-  .value('$routerRootComponent', 'app')
-  .component('app', app)
+    .module('app', [
+      ngMaterial,
+      lokiJS.name,
+      'ngComponentRouter',
+      dbService,
+      solderLoader,
+      mcAuthService,
+      packService,
+      settingsDialog,
+      user,
+      packExplorer
+    ])
+    .config(theme)
+    .value('$routerRootComponent', 'app')
+    .component('app', app)
