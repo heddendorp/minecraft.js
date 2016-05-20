@@ -10,6 +10,7 @@ _minecraft.js in this phase is pretty much good for nothing, I'll still list wha
 * Loading a pack via the technicpack.net api
 * Downloading mods for a solder based pack (about 50% faster then the technic launcher)
 * Persistent storage for launcher data
+
 ### Tech Stack
 * Building with webpack
 * Running the launcher with electron
