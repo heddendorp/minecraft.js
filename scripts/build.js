@@ -149,7 +149,8 @@ function makeWebpackConfig () {
     console: true,
     fs: 'empty',
     net: 'empty',
-    tls: 'empty'
+    tls: 'empty',
+    'file-system': 'empty'
   }
   // config.devServer = { contentBase: './src/public', stats: 'minimal' }
   console.info(config)
