@@ -1,16 +1,20 @@
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
-
 [![Stories in Ready](https://badge.waffle.io/Isigiel/minecraft.js.svg?label=ready&title=Ready)](http://waffle.io/Isigiel/minecraft.js)
 ![Stories in Ready](https://david-dm.org/Isigiel/minecraft.js.svg)
 
 # minecraft.js
 Launching minecraft, with JavaScript :O
 
+### Current Features
+_minecraft.js in this phase is pretty much good for nothing, I'll still list what works atm here_
+* Minecraft authentication and saving the credentials for future starts
+* Loading a pack via the technicpack.net api
+* Downloading mods for a solder based pack (about 50% faster then the technic launcher)
+* Persistent storage for launcher data
 ### Tech Stack
 * Building with webpack
-* Running the JS with electron
-* Writing the app with angular in ES6
-* Using the new component router
+* Running the launcher with electron
+* ES2015 for the angular app and new 1.5 component style
+* Also use of the new angular component router
 * Open questions are distribution and installation/updating
 
 ### Goals
