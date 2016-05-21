@@ -18,7 +18,8 @@ class packs {
     this._toast = $mdToast
     this._log = $log
     this._os = os;
-    this.progress = 0
+    this.progress1 = 0;
+    this.progress2 = 0;
     this._scope = $rootScope
   }
 
@@ -48,8 +49,14 @@ class packs {
           return;
         }
         let mods = build.mods;
-        this.installSolderMods(mods, packdir, cachedir);
-        this.installMcLibs(build.minecraft, packdir);
+        this._async.parallel([
+          this.installMcLibs(build.minecraft, packdir),
+          this.installSolderMods(mods, packdir, cachedir)
+        ], () => {
+          this.progress1 = 0;
+          this.progress2 = 0;
+          this._notify('Modpack installed');
+        });
       });
     });
   }
@@ -67,12 +74,12 @@ class packs {
       r.on('close', () => {
         done++;
         this._scope.$apply(() => {
-          this.progress = (done / totalcount) * 100;
+          this.progress1 = (done / totalcount) * 100;
         });
         new this._zip(cachedir.path() + '/' + mod.md5 + '.zip').extractAllTo(packdir.path(), true);
         done++;
         this._scope.$apply(() => {
-          this.progress = (done / totalcount) * 100;
+          this.progress1 = (done / totalcount) * 100;
         });
         callback();
       });
@@ -84,7 +91,7 @@ class packs {
       console.info('done');
       this._notify('Mods downloaded');
       this._scope.$apply(() => {
-        this.progress = 0;
+        this.progress1 = 0;
       });
     });
   }
@@ -94,6 +101,7 @@ class packs {
     this._debug('Loading libs');
     this._debug(url);
     let libdir = packdir.dir('libs', {empty: true});
+    let nativedir = packdir.dir('natives', {empty: true});
     this._request(url, {json: true}, (err, res, version) => {
       if (err) {
         console.error(err);
@@ -124,11 +132,17 @@ class packs {
           var arch = '64';
           break;
       }
+      let totalcount = version.libraries.length;
+      let done = 0;
       this._async.forEachOfLimit(version.libraries, 10, (library, key, callback) => {
         if (library.rules) {
           library.rules.forEach((rule) => {
             if (rule.action == 'disallow') {
               if (rule.os.name == platform) {
+                done ++;
+                this._scope.$apply(() => {
+                  this.progress2 = (done / totalcount) * 100;
+                });
                 callback();
               }
             }
@@ -152,8 +166,12 @@ class packs {
         });
         r.on('close', () => {
           if (library.extract) {
-            new this._zip(libdir.path() + '/' + filename).extractAllTo(libdir.path(), true);
+            new this._zip(libdir.path() + '/' + filename).extractAllTo(nativedir.path(), true);
           }
+          done ++;
+          this._scope.$apply(() => {
+            this.progress2 = (done / totalcount) * 100;
+          });
           callback();
         });
       }, (err) => {

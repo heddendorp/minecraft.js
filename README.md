@@ -9,6 +9,7 @@ _minecraft.js in this phase is pretty much good for nothing, I'll still list wha
 * Minecraft authentication and saving the credentials for future starts
 * Loading a pack via the technicpack.net api
 * Downloading mods for a solder based pack (about 50% faster then the technic launcher)
+* Downloading vanilla libraries for mc-version and system
 * Persistent storage for launcher data
 
 ### Tech Stack
