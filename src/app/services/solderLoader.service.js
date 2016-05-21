@@ -6,6 +6,7 @@ import async from 'async'
 import request from 'request'
 import jetpack from 'fs-jetpack'
 import zip from 'adm-zip'
+import os from 'os';
 
 class packs {
   constructor($log, $mdToast, $rootScope) {
@@ -16,65 +17,154 @@ class packs {
     this._request = request
     this._toast = $mdToast
     this._log = $log
+    this._os = os;
     this.progress = 0
     this._scope = $rootScope
   }
 
   install(pack) {
-    var progress = this.progress
-    this._debug(pack)
-    let url = pack.solder + 'modpack/' + pack.name
-    this._debug(url)
-    this._request(url, {json: true}, (err, res, body) => {
+    let url = pack.solder + 'modpack/' + pack.name;
+    let packdir = this._fs.dir('data').dir(pack.name, {empty: true});
+    let cachedir = this._fs.dir('data').dir('.cache', {empty: true});
+    this._request(url, {json: true}, (err, res, pack) => {
       if (err) {
-        this._debug(err)
+        this._debug(err);
+        return;
       }
       if (res.statusCode != 200) {
-        this._notify('Invalid request')
+        this._notify('Invalid request');
+        this._debug(res);
+        return;
       }
-      this._debug(body)
-      url += '/' + body.recommended
-      this._request(url, {json: true}, (err, res, body) => {
+      url += '/' + pack.recommended;
+      this._request(url, {json: true}, (err, res, build) => {
         if (err) {
-          this._debug(err)
+          this._debug(err);
+          return;
         }
         if (res.statusCode != 200) {
-          this._notify('Invalid request')
+          this._notify('Invalid request');
+          this._debug(res);
+          return;
         }
-        this._debug(body)
-        let dir = this._fs.dir('data').dir(pack.name, {empty: true});
-        let cachedir = this._fs.dir('data').dir('.cache', {empty: true});
-        this._debug(dir)
-        let totalcount = body.mods.length * 2, done = 0;
-        this._async.forEachOfLimit(body.mods, 10, (value, key, callback) => {
-          let r = this._request(value.url).pipe(this._fs.createWriteStream(cachedir.path() + '/' + value.md5 + '.zip'));
-          r.on('error', (err) => {
-            console.error('Download error!');
-            console.error(err);
-            console.log(value);
-          })
-          r.on('close', () => {
-            done++;
-            console.log((done / totalcount) * 100 + '%');
-            let zip = new this._zip(cachedir.path() + '/' + value.md5 + '.zip').extractAllTo(dir.path(), true);
-            done++;
-            console.log((done / totalcount) * 100 + '%');
-            this._scope.$apply(() => {
-              this.progress = (done / totalcount) * 100;
-            });
-            callback();
-          });
-        }, (err) => {
-          if (err) {
-            console.error(err);
-          }
-          console.info('done');
-          this._scope.$apply(() => {
-            this.progress = 0;
-          });
+        let mods = build.mods;
+        this.installSolderMods(mods, packdir, cachedir);
+        this.installMcLibs(build.minecraft, packdir);
+      });
+    });
+  }
+
+  installSolderMods(mods, packdir, cachedir) {
+    this._notify('Installing modpack ...');
+    let totalcount = mods.length * 2, done = 0;
+    this._async.forEachOfLimit(mods, 10, (mod, key, callback) => {
+      let r = this._request(mod.url).pipe(this._fs.createWriteStream(cachedir.path() + '/' + mod.md5 + '.zip'));
+      r.on('error', (err) => {
+        console.error('Download error!');
+        console.error(err);
+        console.log(value);
+      });
+      r.on('close', () => {
+        done++;
+        this._scope.$apply(() => {
+          this.progress = (done / totalcount) * 100;
         });
-      })
-    })
+        new this._zip(cachedir.path() + '/' + mod.md5 + '.zip').extractAllTo(packdir.path(), true);
+        done++;
+        this._scope.$apply(() => {
+          this.progress = (done / totalcount) * 100;
+        });
+        callback();
+      });
+    }, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.info('done');
+      this._notify('Mods downloaded');
+      this._scope.$apply(() => {
+        this.progress = 0;
+      });
+    });
+  }
+
+  installMcLibs(version, packdir) {
+    let url = `https://s3.amazonaws.com/Minecraft.Download/versions/${version}/${version}.json`;
+    this._debug('Loading libs');
+    this._debug(url);
+    let libdir = packdir.dir('libs', {empty: true});
+    this._request(url, {json: true}, (err, res, version) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      if (res.statusCode != 200) {
+        this._notify('Invalid request');
+        this._debug(res);
+        return;
+      }
+      this._debug(version);
+      switch (this._os.platform()) {
+        case 'darwin':
+          var platform = 'osx';
+          break;
+        case 'win32':
+          var platform = 'windows';
+          break;
+        case 'linux':
+          var platform = 'linux';
+          break;
+      }
+      switch (this._os.arch()) {
+        case 'ia32':
+          var arch = '32';
+          break;
+        case 'x64':
+          var arch = '64';
+          break;
+      }
+      this._async.forEachOfLimit(version.libraries, 10, (library, key, callback) => {
+        if (library.rules) {
+          library.rules.forEach((rule) => {
+            if (rule.action == 'disallow') {
+              if (rule.os.name == platform) {
+                callback();
+              }
+            }
+          })
+        }
+        if (library.downloads.artifact) {
+          var file = library.downloads.artifact;
+
+        } else {
+          let native = library.natives[platform];
+          native = native.replace('${arch}', arch);
+          var file = library.downloads.classifiers[native];
+        }
+        let patharray = file.path.split('/');
+        let filename = patharray[patharray.length - 1];
+        let r = this._request(file.url).pipe(this._fs.createWriteStream(libdir.path() + '/' + filename));
+        r.on('error', (err) => {
+          console.error('Download error!');
+          console.error(err);
+          console.log(value);
+        });
+        r.on('close', () => {
+          if (library.extract) {
+            new this._zip(libdir.path() + '/' + filename).extractAllTo(libdir.path(), true);
+          }
+          callback();
+        });
+      }, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.info('done');
+        this._notify('Libraries downloaded');
+      });
+    });
   }
 
   _notify(text) {
