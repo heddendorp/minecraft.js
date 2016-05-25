@@ -1,12 +1,35 @@
 <div layout="row" layout-padding>
     <div flex="40">
-        <md-card>
+        <md-card flex>
             <img ng-src="{{show.pack.logo.url}}" class="md-card-image" alt="Pack logo">
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">{{show.pack.displayName}}</span>
+
                 </md-card-title-text>
             </md-card-title>
+            <div style="position: relative">
+                <md-fab-toolbar md-direction="left" class="pack-tools">
+                    <md-fab-trigger class="align-with-text">
+                        <md-button aria-label="menu" class="md-fab md-primary">
+                            <md-icon md-svg-icon="icons:menu"></md-icon>
+                        </md-button>
+                    </md-fab-trigger>
+                    <md-toolbar>
+                        <md-fab-actions class="md-toolbar-tools">
+                            <md-button class="md-icon-button" ng-click="show.install()">
+                                <md-icon md-svg-icon="icons:install"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button">
+                                <md-icon md-svg-icon="icons:delete"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button">
+                                <md-icon md-svg-icon="icons:settings"></md-icon>
+                            </md-button>
+                        </md-fab-actions>
+                    </md-toolbar>
+                </md-fab-toolbar>
+            </div>
             <md-card-content>
                 <div layout="row" layout-padding>
                     <div>
@@ -22,14 +45,32 @@
                         {{show.pack.runs | number}}
                     </div>
                 </div>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button flex ng-click="show.install()">Install</md-button>
-            </md-card-actions>
-            <md-card-content>
                 <p>
                     {{show.pack.description}}
                 </p>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div flex="60">
+        <md-card flex>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Included mods</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <md-list ng-if="show.mods">
+                    <md-list-item ng-repeat="mod in show.mods" class="md-2-line">
+                        <div class="md-list-item-text">
+                            <h3>{{mod.pretty_name}}</h3>
+                            <p>At version <em>{{mod.version}}</em></p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <div ng-if="!show.mods" flex layout="column" layout-align="center center">
+                    <md-progress-circular md-diameter="200px" md-mode="indeterminate"></md-progress-circular>
+                    <span>Loading mods</span>
+                </div>
             </md-card-content>
         </md-card>
     </div>

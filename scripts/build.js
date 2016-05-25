@@ -148,6 +148,7 @@ function makeWebpackConfig () {
   config.node = {
     console: true,
     fs: 'empty',
+    os: 'empty',
     net: 'empty',
     tls: 'empty'
   }
